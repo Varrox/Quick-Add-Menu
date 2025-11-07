@@ -1,7 +1,6 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
-demo/
 
 # Godot-specific ignores
 .import/
@@ -15,3 +14,8 @@ export_presets.cfg
 .mono/
 data_*/
 mono_crash.*.json
+
+# My own
+
+demo/
+.vscode/
