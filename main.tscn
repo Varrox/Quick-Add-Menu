@@ -1,0 +1,98 @@
+[gd_scene load_steps=10 format=3 uid="uid://fi3avgc44a2b"]
+
+[ext_resource type="Script" uid="uid://57m2l8c0ksdf" path="res://player.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://5f2nsx1chjjc" path="res://camera_3d.gd" id="2_0xm2m"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0xm2m"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_h2yge"]
+sky_material = SubResource("ProceduralSkyMaterial_0xm2m")
+
+[sub_resource type="Environment" id="Environment_1bvp3"]
+background_mode = 2
+sky = SubResource("Sky_h2yge")
+tonemap_mode = 2
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_0xm2m"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2yge"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0xm2m"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h2yge"]
+
+[node name="Node3D" type="Node3D" unique_id=2040828517]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1315077519]
+environment = SubResource("Environment_1bvp3")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=867020368]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Capsule" type="CharacterBody3D" parent="." unique_id=259381686]
+script = ExtResource("1_ig7tw")
+
+[node name="Mesh" type="MeshInstance3D" parent="Capsule" unique_id=1773613476]
+mesh = SubResource("CapsuleMesh_0xm2m")
+
+[node name="Collider" type="CollisionShape3D" parent="Capsule" unique_id=923645285]
+shape = SubResource("CapsuleShape3D_h2yge")
+
+[node name="Camera3D" type="Camera3D" parent="Capsule" unique_id=1580958113]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5297494, 0)
+script = ExtResource("2_0xm2m")
+
+[node name="CSG Combiner" type="CSGCombiner3D" parent="." unique_id=1468338705]
+use_collision = true
+
+[node name="CSG Box" type="CSGBox3D" parent="CSG Combiner" unique_id=1590978836]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -2, -0.5)
+use_collision = true
+size = Vector3(10, 1, 10)
+
+[node name="CSG Box 1" type="CSGBox3D" parent="CSG Combiner" unique_id=1503832136]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.5, -5)
+size = Vector3(10, 2, 1)
+
+[node name="CSG Box 2" type="CSGBox3D" parent="CSG Combiner" unique_id=2021457476]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0.5, 4)
+size = Vector3(6, 4, 1)
+
+[node name="Box2" type="StaticBody3D" parent="." unique_id=1698991437]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -1, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Box2" unique_id=895413970]
+mesh = SubResource("BoxMesh_0xm2m")
+
+[node name="Collider" type="CollisionShape3D" parent="Box2" unique_id=1726015103]
+shape = SubResource("BoxShape3D_h2yge")
+
+[node name="Box3" type="StaticBody3D" parent="." unique_id=1539870357]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Box3" unique_id=558532324]
+mesh = SubResource("BoxMesh_0xm2m")
+
+[node name="Collider" type="CollisionShape3D" parent="Box3" unique_id=1149586606]
+shape = SubResource("BoxShape3D_h2yge")
+
+[node name="Box4" type="StaticBody3D" parent="." unique_id=1877250899]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1, -2)
+
+[node name="Mesh" type="MeshInstance3D" parent="Box4" unique_id=1908175801]
+mesh = SubResource("BoxMesh_0xm2m")
+
+[node name="Collider" type="CollisionShape3D" parent="Box4" unique_id=159543123]
+shape = SubResource("BoxShape3D_h2yge")
+
+[node name="Box5" type="StaticBody3D" parent="." unique_id=1455850414]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 2, -2)
+
+[node name="Mesh" type="MeshInstance3D" parent="Box5" unique_id=1569203951]
+mesh = SubResource("BoxMesh_0xm2m")
+
+[node name="Collider" type="CollisionShape3D" parent="Box5" unique_id=1112584389]
+shape = SubResource("BoxShape3D_h2yge")

@@ -17,9 +17,22 @@ func add_custom_items(): ## Add custom items
 	QuickAddMenu.node_3d_list.append(item)
 ```
 
-This code inside of the `add_custom_items()` function inside of the `quick_add_menu.gd` script produces:
+or one with children:  
 
-<img src="Tutorial/Images/screenshot_02.png">Screenshot 2<\img>
+```gdscript
+func rigidbody() -> Array[Node]:
+	var body:RigidBody3D = RigidBody3D.new()
+	var collider:CollisionShape3D = CollisionShape3D.new() # Child of body
+	collider.shape = BoxShape3D.new()
+	
+	return [body, collider]
+
+func add_custom_items(): ## Add custom items
+	var item = QuickAddMenu.Item.new("Rigid Body", load("res://RigidBody3D.svg"), rigidbody)
+	QuickAddMenu.node_3d_list.append(item)
+```
+
+This code should produce what is seen in screenshot_02.png
 
 ## Custom Headers
 
@@ -31,4 +44,4 @@ func add_custom_items(): ## Add custom items
 	QuickAddMenu.node_3d_list.append(header)
 ```
 
-<img src="Tutorial/Images/screenshot_01.png">Screenshot 1<\img>
+This code should produce what is seen in screenshot_01.png
