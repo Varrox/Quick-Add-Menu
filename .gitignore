@@ -13,6 +13,7 @@ mono_crash.*.json
 
 # Export presets (contains potentially sensitive info)
 export_presets.cfg
+demo/
 
 # macOS
 .DS_Store
