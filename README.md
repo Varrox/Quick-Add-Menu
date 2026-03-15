@@ -46,9 +46,7 @@ func add_custom_items(): ## Add custom items
 
 This code should end up looking like this:
 
-<p>
-  <img src="assets/screenshot_02.png" alt="Screenshot 2"/>
-</p>
+<img src="assets/screenshot_02.png" alt="Screenshot 2"/>
 
 ## Custom Headers
 
@@ -62,9 +60,4 @@ func add_custom_items(): ## Add custom items
 
 This code should end up looking like this:
 
-<p>
-  <img src="assets/screenshot_01.png" alt="Screenshot 1"/>
-</p>
-
-
-
+<img src="assets/screenshot_01.png" alt="Screenshot 1"/>
