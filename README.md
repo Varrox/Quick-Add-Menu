@@ -44,7 +44,11 @@ func add_custom_items(): ## Add custom items
     QuickAddMenu.node_3d_list.append(item)
 ```
 
-This code should produce what is seen in screenshot\_02.png
+This code should end up looking like this:
+
+<p>
+  <img src="assets/screenshot_02.png" alt="Screenshot 2"/>
+</p>
 
 ## Custom Headers
 
@@ -56,7 +60,11 @@ func add_custom_items(): ## Add custom items
     QuickAddMenu.node_3d_list.append(header)
 ```
 
-This code should produce what is seen in screenshot\_01.png
+This code should end up looking like this:
+
+<p>
+  <img src="assets/screenshot_01.png" alt="Screenshot 1"/>
+</p>
 
 
 
