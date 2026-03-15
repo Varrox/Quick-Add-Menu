@@ -98,13 +98,13 @@ class Item:
 ## Items for [Node3D]s.
 static var node_3d_list:Array[Item] = [
 	Item.new_header("Primitive Shapes"),
-	Item.new("Plane", load("uid://04sjd3fhspum"), func(): return _create_primitive_3d(0)),
+	Item.new("Plane", load("res://addons/Quick-Add-Menu/Icons/PlaneMesh.svg"), func(): return _create_primitive_3d(0)),
 	Item.new("Box", _get_icon("BoxShape3D"), func(): return _create_primitive_3d(1)),
 	Item.new("Sphere", _get_icon("SphereShape3D"), func(): return _create_primitive_3d(2)),
 	Item.new("Capsule", _get_icon("CapsuleShape3D"), func(): return _create_primitive_3d(3)),
 	Item.new("Cylinder", _get_icon("CylinderShape3D"), func(): return _create_primitive_3d(4)),
-	Item.new("Prism", load("uid://bkqqtifxdtts8"), func(): return _create_primitive_3d(5)),
-	Item.new("Torus", load("uid://bui2yippw5un6"), func(): return _create_primitive_3d(6)),
+	Item.new("Prism", load("res://addons/Quick-Add-Menu/Icons/PrismMesh.svg"), func(): return _create_primitive_3d(5)),
+	Item.new("Torus", load("res://addons/Quick-Add-Menu/Icons/TorusMesh.svg"), func(): return _create_primitive_3d(6)),
 	Item.new_header("CSGs"),
 	Item.new("Box CSG", _get_icon("CSGBox3D"), func(): return _create_csg_3d(0)),
 	Item.new("Sphere CSG", _get_icon("CSGSphere3D"), func(): return _create_csg_3d(1)),
