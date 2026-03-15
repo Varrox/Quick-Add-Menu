@@ -4,27 +4,29 @@ class_name QuickAddMenu extends EditorPlugin
 var menu_button:MenuButton
 var parent_node:Node
 
+static var base_control:Control = EditorInterface.get_base_control()
+
 const TOOLTIP = "Quick Add Child Node... (Ctrl+E)\nQuickly Add/Create a New Node."
 
-func add_custom_items(): ## Add custom items
+## Add custom items
+func _add_custom_items():
 	# Add your own code
 	pass
 
 func _enter_tree() -> void:
-	add_custom_items()
+	_add_custom_items()
 	
-	var root_node = get_editor_interface().get_base_control()
-	var top_container:HBoxContainer = root_node.get_node("/root/@EditorNode@18865/@Panel@14/@VBoxContainer@15/DockHSplitLeftL/DockHSplitLeftR/DockVSplitLeftR/DockSlotLeftUR/Scene/@VBoxContainer@4681/@HBoxContainer@4684")
+	var top_container:HBoxContainer = _find_place(base_control)
 	
 	menu_button = MenuButton.new()
 	menu_button.theme_type_variation = &"FlatMenuButton"
-	menu_button.icon = load("uid://ds2d3cnebnoxj")
+	menu_button.icon = _get_icon("Object")
 	menu_button.flat = false
 	menu_button.tooltip_text = TOOLTIP
 	
 	top_container.add_child(menu_button)
 	top_container.move_child(menu_button, 1)
-
+	
 	# Shortcut
 	
 	menu_button.shortcut_context = top_container.get_parent()
@@ -40,17 +42,19 @@ func _enter_tree() -> void:
 
 	# Finalize
 	
-	menu_button.get_popup().id_pressed.connect(item_selected)
-	menu_button.about_to_popup.connect(update_add_list)
+	menu_button.get_popup().id_pressed.connect(_item_selected)
+	menu_button.about_to_popup.connect(_update_add_list)
 	
 	if EditorInterface.get_selection().get_selected_nodes().size() == 0:
 		menu_button.hide()
 
-func _exit_tree() -> void: ## Delete [member menu_button]
+## Delete [member menu_button]
+func _exit_tree() -> void:
 	menu_button.queue_free()
 	menu_button = null
 
-func update_add_list() -> void: ## Updates list of items to quick add
+## Updates list of items to quick add
+func _update_add_list() -> void:
 	menu_button.get_popup().clear()
 	var items:Array[Item]
 	
@@ -69,6 +73,10 @@ func update_add_list() -> void: ## Updates list of items to quick add
 		else:
 			menu_button.get_popup().add_icon_item(i.icon, i.name)
 
+## Gets an editor icon
+static func _get_icon(icon:String) -> Texture2D:
+	return base_control.get_theme_icon(icon, "EditorIcons")
+
 class Item:
 	var name:String
 	var icon:Texture2D
@@ -81,6 +89,7 @@ class Item:
 		self.spawn_callable = spawn_callable
 		self.header = header
 	
+	## Creates a header item
 	static func new_header(name:String, icon:Texture2D = null) -> Item:
 		var preset = Item.new(name, icon, (func(): return false))
 		preset.header = true
@@ -89,51 +98,53 @@ class Item:
 ## Items for [Node3D]s.
 static var node_3d_list:Array[Item] = [
 	Item.new_header("Primitive Shapes"),
-	Item.new("Plane", load("uid://04sjd3fhspum"), func(): return create_primitive_3d(0)),
-	Item.new("Box", load("uid://kcqkdkckt74o"), func(): return create_primitive_3d(1)),
-	Item.new("Sphere", load("uid://c1qotmgdt3wv3"), func(): return create_primitive_3d(2)),
-	Item.new("Capsule", load("uid://fhywelx5d3gd"), func(): return create_primitive_3d(3)),
-	Item.new("Cylinder", load("uid://dv1xiqpngy1pk"), func(): return create_primitive_3d(4)),
-	Item.new("Prism", load("uid://bkqqtifxdtts8"), func(): return create_primitive_3d(5)),
-	Item.new("Torus", load("uid://bui2yippw5un6"), func(): return create_primitive_3d(6)),
+	Item.new("Plane", load("uid://04sjd3fhspum"), func(): return _create_primitive_3d(0)),
+	Item.new("Box", _get_icon("BoxShape3D"), func(): return _create_primitive_3d(1)),
+	Item.new("Sphere", _get_icon("SphereShape3D"), func(): return _create_primitive_3d(2)),
+	Item.new("Capsule", _get_icon("CapsuleShape3D"), func(): return _create_primitive_3d(3)),
+	Item.new("Cylinder", _get_icon("CylinderShape3D"), func(): return _create_primitive_3d(4)),
+	Item.new("Prism", load("uid://bkqqtifxdtts8"), func(): return _create_primitive_3d(5)),
+	Item.new("Torus", load("uid://bui2yippw5un6"), func(): return _create_primitive_3d(6)),
 	Item.new_header("CSGs"),
-	Item.new("Box CSG", load("uid://mru2wroj0hws"), func(): return create_csg_3d(0)),
-	Item.new("Sphere CSG", load("uid://dpcm004e20a7i"), func(): return create_csg_3d(1)),
-	Item.new("Cylinder CSG", load("uid://60vpd04k7ajx"), func(): return create_csg_3d(2)),
-	Item.new("Torus CSG", load("uid://b5ycf41f2iwyv"), func(): return create_csg_3d(3)),
-	Item.new("CSG Combiner", load("uid://c3f30fs8pq6wq"), func(): return create_csg_3d(4))
+	Item.new("Box CSG", _get_icon("CSGBox3D"), func(): return _create_csg_3d(0)),
+	Item.new("Sphere CSG", _get_icon("CSGSphere3D"), func(): return _create_csg_3d(1)),
+	Item.new("Cylinder CSG", _get_icon("CSGCylinder3D"), func(): return _create_csg_3d(2)),
+	Item.new("Torus CSG", _get_icon("CSGTorus3D"), func(): return _create_csg_3d(3)),
+	Item.new("CSG Combiner", _get_icon("CSGCombiner3D"), func(): return _create_csg_3d(4))
 ]
 
 ## Items for [Node2D]s.
 static var node_2d_list:Array[Item] = [
 	Item.new_header("Nodes"),
-	Item.new("Sprite", load("uid://da6h1txipiy4"), func(): return create_node_2d(0)),
-	Item.new("Animated Sprite", load("uid://ci35f6n6m2mke"), func(): return create_node_2d(1)),
-	Item.new("Tile Map", load("uid://b4wwexqygjm0"), func(): return create_node_2d(2)),
-	Item.new("Static Body", load("uid://ciyi48ox8bqtr"), func(): return create_node_2d(3)),
-	Item.new("Collision Shape", load("uid://cdnwk2nynvqcs"), func(): return create_node_2d(4)),
+	Item.new("Sprite", _get_icon("Sprite2D"), func(): return _create_node_2d(0)),
+	Item.new("Animated Sprite", _get_icon("AnimatedSprite2D"), func(): return _create_node_2d(1)),
+	Item.new("Tile Map", _get_icon("TileMapLayer"), func(): return _create_node_2d(2)),
+	Item.new("Static Body", _get_icon("StaticBody2D"), func(): return _create_node_2d(3)),
+	Item.new("Collision Shape", _get_icon("CollisionShape2D"), func(): return _create_node_2d(4)),
 ]
 
 ## Items for [Control]s.
 static var control_list:Array[Item] = [
 	Item.new_header("UI Elements"),
-	Item.new("Button", load("uid://hphfsmmjje1h"), func(): return create_control(0)),
-	Item.new("Check Box", load("uid://dxncpjvjumkws"), func(): return create_control(1)),
-	Item.new("Label", load("uid://bs34kqsixe1yx"), func(): return create_control(2)),
-	Item.new("Line Edit", load("uid://biddvfrt12q3l"), func(): return create_control(3)),
-	Item.new("VBox Container", load("uid://d353irfrid81h"), func(): return create_control(4)),
-	Item.new("HBox Container", load("uid://b3lyvsbrgyvak"), func(): return create_control(5))
+	Item.new("Button", _get_icon("Button"), func(): return _create_control(0)),
+	Item.new("Check Box", _get_icon("CheckBox"), func(): return _create_control(1)),
+	Item.new("Label", _get_icon("Label"), func(): return _create_control(2)),
+	Item.new("Line Edit", _get_icon("LineEdit"), func(): return _create_control(3)),
+	Item.new("VBox Container", _get_icon("VBoxContainer"), func(): return _create_control(4)),
+	Item.new("HBox Container", _get_icon("HBoxContainer"), func(): return _create_control(5))
 ]
 
 ## Items for [Node].
 static var node_list:Array[Item] = [
 	Item.new_header("Nodes"),
-	Item.new("Node 2D", load("uid://b7c51h128c283"), func(): return create_node(0)),
-	Item.new("Node 3D", load("uid://bjrkhgqok8bge"), func(): return create_node(1)),
-	Item.new("Control", load("uid://6e8ojoc4n6v8"), func(): return create_node(2))
+	Item.new("Node 2D", _get_icon("Node2D"), func(): return _create_node(0)),
+	Item.new("Node 3D", _get_icon("Node3D"), func(): return _create_node(1)),
+	Item.new("Control", _get_icon("Control"), func(): return _create_node(2)),
+	Item.new("File Dialog", _get_icon("FileDialog"), func(): return _create_node(2))
 ]
 
-static func create_primitive_3d(type:int) -> Array[Node]: ## Creates a [StaticBody3D] with a [MeshInstance3D] and a [CollisionShape3D] supposed to be it's children.
+## Creates a [StaticBody3D] with a [MeshInstance3D] and a [CollisionShape3D] supposed to be it's children.
+static func _create_primitive_3d(type:int) -> Array[Node]:
 	var root = StaticBody3D.new()
 	var mesh = MeshInstance3D.new()
 	var collider = CollisionShape3D.new()
@@ -173,7 +184,8 @@ static func create_primitive_3d(type:int) -> Array[Node]: ## Creates a [StaticBo
 	
 	return [root, mesh, collider]
 
-static func create_csg_3d(type:int) -> Array[Node]: ## Creates a [CSGShape3D].
+## Creates a [CSGShape3D].
+static func _create_csg_3d(type:int) -> Array[Node]:
 	var csg:Node
 	
 	match type:
@@ -200,7 +212,8 @@ static func create_csg_3d(type:int) -> Array[Node]: ## Creates a [CSGShape3D].
 	
 	return [csg]
 
-static func create_control(type:int) -> Array[Node]: ## Creates a [Control].
+## Creates a [Control].
+static func _create_control(type:int) -> Array[Node]:
 	var control:Control
 	
 	match type:
@@ -225,7 +238,8 @@ static func create_control(type:int) -> Array[Node]: ## Creates a [Control].
 	
 	return [control]
 
-static func create_node(type:int) -> Array[Node]: ## Creates a [Node].
+## Creates a [Node].
+static func _create_node(type:int) -> Array[Node]:
 	var node:Node
 	
 	match type:
@@ -241,7 +255,8 @@ static func create_node(type:int) -> Array[Node]: ## Creates a [Node].
 	
 	return [node]
 
-static func create_node_2d(type:int) -> Array[Node]: ## Creates a [Node2D].
+## Creates a [Node2D].
+static func _create_node_2d(type:int) -> Array[Node]:
 	var node:Node
 	
 	match type:
@@ -263,7 +278,8 @@ static func create_node_2d(type:int) -> Array[Node]: ## Creates a [Node2D].
 	
 	return [node]
 
-func item_selected(id:int) -> void: ## When an item is selected off of the list.
+## When an item is selected off of the list.
+func _item_selected(id:int) -> void:
 	if parent_node == null:
 		parent_node = get_editor_interface().get_edited_scene_root().get_child(0)
 	
@@ -329,19 +345,15 @@ func _edit(object: Object) -> void:
 func _make_visible(visible: bool) -> void:
 	menu_button.visible = visible
 
+## Find the container for the quick add button to be placed in
+func _find_place(node:Node) -> Node:
+	for i in node.get_children():
+		if i is Button && i.get_parent() is HBoxContainer:
+			if (i as Button).icon == _get_icon("Add"):
+				return i.get_parent()
+		var d = _find_place(i)
+		if d != null:
+			return d
+	return null
 
-''' UNUSED CODE (Keeping bc godot might change UI naming / hierarchy, so ts is gonna be needed, but if you aren't me, just ignore it lol)
-
-func find_place(node_list:Node, p:int) -> bool: ## Ik ts is horrible code, and I will NOT be fixing it unless godot gets better at stuff like ts >:3
-	p += 1
-	for i in node_list.get_children():
-		if i is Button:
-			if p == 9 and i.name == "@Button@4682":
-				topbox = i.get_parent()
-				print(topbox.get_path())
-				return true
-		if find_place(i, p):
-			return true
-	return false
-
-'''
+# ^^ I know this is horrible code, and I will NOT be fixing it unless godot adds better ways to get specific UI elements >:3
