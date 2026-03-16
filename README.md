@@ -22,7 +22,7 @@ The first element of the returned array will be the first node added, and nodes 
 
 ```gdscript
 func add_custom_items(): ## Add custom items
-    var item = QuickAddMenu.Item.new("Rigid Body", load("res://RigidBody3D.svg"), func(): return [RigidBody3D.new()] as Array[Node])
+    var item = QuickAddMenu.Item.new("Rigid Body", get_icon("RigidBody3D"), func(): return [RigidBody3D.new()] as Array[Node])
     QuickAddMenu.node_3d_list.append(item)
 ```
 
@@ -31,7 +31,6 @@ or one with children:
 ```gdscript
 
 func rigidbody() -> Array[Node]:
-
     var body:RigidBody3D = RigidBody3D.new()
     var collider:CollisionShape3D = CollisionShape3D.new() # Child of body
     
@@ -40,7 +39,7 @@ func rigidbody() -> Array[Node]:
     return [body, collider]
 
 func add_custom_items(): ## Add custom items
-    var item = QuickAddMenu.Item.new("Rigid Body", load("res://RigidBody3D.svg"), rigidbody)
+    var item = QuickAddMenu.Item.new("Rigid Body", get_icon("RigidBody3D"), rigidbody)
     QuickAddMenu.node_3d_list.append(item)
 ```
 
