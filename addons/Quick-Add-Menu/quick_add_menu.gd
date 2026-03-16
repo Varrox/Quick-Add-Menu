@@ -4,23 +4,21 @@ class_name QuickAddMenu extends EditorPlugin
 var menu_button:MenuButton
 var parent_node:Node
 
-static var base_control:Control = EditorInterface.get_base_control()
-
 const TOOLTIP = "Quick Add Child Node... (Ctrl+E)\nQuickly Add/Create a New Node."
 
 ## Add custom items
-func _add_custom_items():
+func add_custom_items():
 	# Add your own code
 	pass
 
 func _enter_tree() -> void:
-	_add_custom_items()
+	add_custom_items()
 	
-	var top_container:HBoxContainer = _find_place(base_control)
+	var top_container:HBoxContainer = _find_place(EditorInterface.get_base_control())
 	
 	menu_button = MenuButton.new()
 	menu_button.theme_type_variation = &"FlatMenuButton"
-	menu_button.icon = _get_icon("Object")
+	menu_button.icon = get_icon("Object")
 	menu_button.flat = false
 	menu_button.tooltip_text = TOOLTIP
 	
@@ -74,8 +72,8 @@ func _update_add_list() -> void:
 			menu_button.get_popup().add_icon_item(i.icon, i.name)
 
 ## Gets an editor icon
-static func _get_icon(icon:String) -> Texture2D:
-	return base_control.get_theme_icon(icon, "EditorIcons")
+static func get_icon(icon:String) -> Texture2D:
+	return EditorInterface.get_base_control().get_theme_icon(icon, "EditorIcons")
 
 class Item:
 	var name:String
@@ -99,48 +97,48 @@ class Item:
 static var node_3d_list:Array[Item] = [
 	Item.new_header("Primitive Shapes"),
 	Item.new("Plane", load("res://addons/Quick-Add-Menu/Icons/PlaneMesh.svg"), func(): return _create_primitive_3d(0)),
-	Item.new("Box", _get_icon("BoxShape3D"), func(): return _create_primitive_3d(1)),
-	Item.new("Sphere", _get_icon("SphereShape3D"), func(): return _create_primitive_3d(2)),
-	Item.new("Capsule", _get_icon("CapsuleShape3D"), func(): return _create_primitive_3d(3)),
-	Item.new("Cylinder", _get_icon("CylinderShape3D"), func(): return _create_primitive_3d(4)),
+	Item.new("Box", get_icon("BoxShape3D"), func(): return _create_primitive_3d(1)),
+	Item.new("Sphere", get_icon("SphereShape3D"), func(): return _create_primitive_3d(2)),
+	Item.new("Capsule", get_icon("CapsuleShape3D"), func(): return _create_primitive_3d(3)),
+	Item.new("Cylinder", get_icon("CylinderShape3D"), func(): return _create_primitive_3d(4)),
 	Item.new("Prism", load("res://addons/Quick-Add-Menu/Icons/PrismMesh.svg"), func(): return _create_primitive_3d(5)),
 	Item.new("Torus", load("res://addons/Quick-Add-Menu/Icons/TorusMesh.svg"), func(): return _create_primitive_3d(6)),
 	Item.new_header("CSGs"),
-	Item.new("Box CSG", _get_icon("CSGBox3D"), func(): return _create_csg_3d(0)),
-	Item.new("Sphere CSG", _get_icon("CSGSphere3D"), func(): return _create_csg_3d(1)),
-	Item.new("Cylinder CSG", _get_icon("CSGCylinder3D"), func(): return _create_csg_3d(2)),
-	Item.new("Torus CSG", _get_icon("CSGTorus3D"), func(): return _create_csg_3d(3)),
-	Item.new("CSG Combiner", _get_icon("CSGCombiner3D"), func(): return _create_csg_3d(4))
+	Item.new("Box CSG", get_icon("CSGBox3D"), func(): return _create_csg_3d(0)),
+	Item.new("Sphere CSG", get_icon("CSGSphere3D"), func(): return _create_csg_3d(1)),
+	Item.new("Cylinder CSG", get_icon("CSGCylinder3D"), func(): return _create_csg_3d(2)),
+	Item.new("Torus CSG", get_icon("CSGTorus3D"), func(): return _create_csg_3d(3)),
+	Item.new("CSG Combiner", get_icon("CSGCombiner3D"), func(): return _create_csg_3d(4))
 ]
 
 ## Items for [Node2D]s.
 static var node_2d_list:Array[Item] = [
 	Item.new_header("Nodes"),
-	Item.new("Sprite", _get_icon("Sprite2D"), func(): return _create_node_2d(0)),
-	Item.new("Animated Sprite", _get_icon("AnimatedSprite2D"), func(): return _create_node_2d(1)),
-	Item.new("Tile Map", _get_icon("TileMapLayer"), func(): return _create_node_2d(2)),
-	Item.new("Static Body", _get_icon("StaticBody2D"), func(): return _create_node_2d(3)),
-	Item.new("Collision Shape", _get_icon("CollisionShape2D"), func(): return _create_node_2d(4)),
+	Item.new("Sprite", get_icon("Sprite2D"), func(): return _create_node_2d(0)),
+	Item.new("Animated Sprite", get_icon("AnimatedSprite2D"), func(): return _create_node_2d(1)),
+	Item.new("Tile Map", get_icon("TileMapLayer"), func(): return _create_node_2d(2)),
+	Item.new("Static Body", get_icon("StaticBody2D"), func(): return _create_node_2d(3)),
+	Item.new("Collision Shape", get_icon("CollisionShape2D"), func(): return _create_node_2d(4)),
 ]
 
 ## Items for [Control]s.
 static var control_list:Array[Item] = [
 	Item.new_header("UI Elements"),
-	Item.new("Button", _get_icon("Button"), func(): return _create_control(0)),
-	Item.new("Check Box", _get_icon("CheckBox"), func(): return _create_control(1)),
-	Item.new("Label", _get_icon("Label"), func(): return _create_control(2)),
-	Item.new("Line Edit", _get_icon("LineEdit"), func(): return _create_control(3)),
-	Item.new("VBox Container", _get_icon("VBoxContainer"), func(): return _create_control(4)),
-	Item.new("HBox Container", _get_icon("HBoxContainer"), func(): return _create_control(5))
+	Item.new("Button", get_icon("Button"), func(): return _create_control(0)),
+	Item.new("Check Box", get_icon("CheckBox"), func(): return _create_control(1)),
+	Item.new("Label", get_icon("Label"), func(): return _create_control(2)),
+	Item.new("Line Edit", get_icon("LineEdit"), func(): return _create_control(3)),
+	Item.new("VBox Container", get_icon("VBoxContainer"), func(): return _create_control(4)),
+	Item.new("HBox Container", get_icon("HBoxContainer"), func(): return _create_control(5))
 ]
 
 ## Items for [Node].
 static var node_list:Array[Item] = [
 	Item.new_header("Nodes"),
-	Item.new("Node 2D", _get_icon("Node2D"), func(): return _create_node(0)),
-	Item.new("Node 3D", _get_icon("Node3D"), func(): return _create_node(1)),
-	Item.new("Control", _get_icon("Control"), func(): return _create_node(2)),
-	Item.new("File Dialog", _get_icon("FileDialog"), func(): return _create_node(2))
+	Item.new("Node 2D", get_icon("Node2D"), func(): return _create_node(0)),
+	Item.new("Node 3D", get_icon("Node3D"), func(): return _create_node(1)),
+	Item.new("Control", get_icon("Control"), func(): return _create_node(2)),
+	Item.new("File Dialog", get_icon("FileDialog"), func(): return _create_node(2))
 ]
 
 ## Creates a [StaticBody3D] with a [MeshInstance3D] and a [CollisionShape3D] supposed to be it's children.
@@ -349,7 +347,7 @@ func _make_visible(visible: bool) -> void:
 func _find_place(node:Node) -> Node:
 	for i in node.get_children():
 		if i is Button && i.get_parent() is HBoxContainer:
-			if (i as Button).icon == _get_icon("Add"):
+			if (i as Button).icon == get_icon("Add"):
 				return i.get_parent()
 		var d = _find_place(i)
 		if d != null:
