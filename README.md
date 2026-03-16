@@ -1,6 +1,6 @@
 # Quick Add Menu
 
-A Godot plugin that adds a drop down menu in the scene dock which gives quickly accessible nodes that can be added to your scene.
+A Godot plugin that adds a drop down menu in the scene dock which gives quickly accessible nodes that can be added to your scene, similar to Unity's right click options in the scene hierarcy.
 
 It can be expanded to include your own custom nodes as well.
 
@@ -8,7 +8,7 @@ The menu's items depend on the type of node you have selected.
 
 # Customization
 
-You can customize the Quick Add menu with different function calls inside and out of the `quick_add_menu.gd` `add_custom_items()` function.
+You can customize the Quick Add Menu with different function calls inside and out of the `quick_add_menu.gd` `add_custom_items()` function.
 
 The best place to start is inside of the `add_custom_items()` function if you do not have your own editor plugin.
 
@@ -18,7 +18,7 @@ Items within the quick menu consist of a `String` `name`, an `Texture2D` `icon`,
 
 The callable needs to return an `Array[Node]` to work.
 
-The first element of the returned array will be the first node added, and nodes afterwards in the array will be children of that node.  
+The first element of the returned array will be the node added to the selected node, and nodes afterwards in the array will be children of that new node.  
 
 ```gdscript
 func add_custom_items(): ## Add custom items
@@ -49,7 +49,7 @@ This code should end up looking like this:
 
 ## Custom Headers
 
-Headers within the quick menu consist of a `String` `name`, an `Texture2D` `icon`  
+Headers within the quick menu consist of a `String` `name`, and a `Texture2D` `icon`  
 
 ```gdscript
 func add_custom_items(): ## Add custom items
