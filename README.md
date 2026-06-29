@@ -1,5 +1,13 @@
 # Quick Add Menu
 
+<br>
+
+<div align="center">
+    <img src="addons/Quick-Add-Menu/Icons/QuickAdd.svg" alt="Logo" width="150"/>
+</div>
+
+<br>
+
 A Godot plugin that adds a drop down menu in the scene dock which gives quickly accessible nodes that can be added to your scene, similar to Unity's right click options in the scene hierarchy.
 
 It can be expanded to include your own custom nodes as well.
