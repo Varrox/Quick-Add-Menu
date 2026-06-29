@@ -18,7 +18,7 @@ func _enter_tree() -> void:
 	
 	menu_button = MenuButton.new()
 	menu_button.theme_type_variation = &"FlatMenuButton"
-	menu_button.icon = get_icon("Object")
+	menu_button.icon = load("res://addons/Quick-Add-Menu/Icons/QuickAdd.svg")
 	menu_button.flat = false
 	menu_button.tooltip_text = TOOLTIP
 	
