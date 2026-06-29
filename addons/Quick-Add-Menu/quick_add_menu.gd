@@ -61,6 +61,11 @@ func _update_add_list() -> void:
 	menu_button.get_popup().clear()
 	var items:Array[Item]
 	
+	if parent_node == null:
+		var nodes = EditorInterface.get_selection().get_selected_nodes()
+		if nodes.size() > 0:
+			parent_node = nodes[0]
+	
 	if parent_node is Node3D:
 		items = node_3d_list
 	elif parent_node is Node2D:
