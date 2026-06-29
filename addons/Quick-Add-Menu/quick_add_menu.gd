@@ -14,13 +14,11 @@ func add_custom_items():
 func _enter_tree() -> void:
 	add_custom_items()
 	
-	var scene_tree_dock = _get_scene_tree_dock()
+	var top_container:HBoxContainer = _find_container()
 	
-	if scene_tree_dock == null:
-		print_rich("[color=\"yellow\"]Scene Tree Dock not found. Unable to add Quick Add button.[/color]")
+	if top_container == null:
+		print_rich("[color=\"yellow\"]Quick Add button container not found. Unable to add Quick Add button to scene dock.[/color]")
 		return
-	
-	var top_container:HBoxContainer = _find_place(scene_tree_dock)
 	
 	menu_button = MenuButton.new()
 	menu_button.theme_type_variation = &"FlatMenuButton"
@@ -351,17 +349,25 @@ func _make_visible(visible: bool) -> void:
 	if menu_button != null:
 		menu_button.visible = visible
 
-## Find the container for the quick add button to be placed in
-func _find_place(node:Node) -> Node:
-	for i in node.get_children():
-		if i is Button && i.get_parent() is HBoxContainer:
-			if (i as Button).icon == get_icon("Add"):
-				return i.get_parent()
-		var d = _find_place(i)
-		if d != null:
-			return d
-	return null
+func _is_add_node_button(node:Button) -> bool:
+	return node.icon == get_icon("Add") && node.get_parent() is HBoxContainer
 
+## Find the container for the quick add button to be placed in.
+func _find_container() -> HBoxContainer:
+	var scene_tree_dock = _get_scene_tree_dock()
+	
+	if scene_tree_dock == null:
+		print_rich("[color=\"yellow\"]Scene Tree Dock not found. Unable to get container.[/color]")
+		return
+	
+	var add_node_button:Button = _find_node_custom(scene_tree_dock, "Button", _is_add_node_button)
+	
+	if add_node_button == null:
+		return
+	
+	return add_node_button.get_parent() as HBoxContainer
+
+## Get the scene dock root node.
 func _get_scene_tree_dock() -> Control:
 	return _find_node(EditorInterface.get_base_control(), "SceneTreeDock") as Control
 
@@ -375,4 +381,12 @@ func _find_node(current_node:Node, node_class:String) -> Node:
 			return c
 	return null
 
-# ^^ I know this is horrible code, and I will NOT be fixing it unless godot adds better ways to get specific UI elements >:3
+## Find a child node by class name and a custom check.
+func _find_node_custom(current_node:Node, node_class:String, check:Callable) -> Node:
+	for i in current_node.get_children():
+		if i.get_class() == node_class && check.call(i):
+			return i
+		var c = _find_node_custom(i, node_class, check)
+		if c != null:
+			return c
+	return null
