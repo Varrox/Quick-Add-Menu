@@ -2,8 +2,6 @@
 * text=auto eol=lf
 
 # Only include the addons folder when downloading from the Asset Library.
-assets/ export-ignore
-README.md export-ignore
-LICENSE export-ignore
-.gitignore export-ignore
-.gitattributes export-ignore
+/**        export-ignore
+/addons    !export-ignore
+/addons/** !export-ignore
