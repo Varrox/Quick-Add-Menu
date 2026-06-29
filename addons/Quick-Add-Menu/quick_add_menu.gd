@@ -14,7 +14,13 @@ func add_custom_items():
 func _enter_tree() -> void:
 	add_custom_items()
 	
-	var top_container:HBoxContainer = _find_place(EditorInterface.get_base_control())
+	var scene_tree_dock = _get_scene_tree_dock()
+	
+	if scene_tree_dock == null:
+		print_rich("[color=\"yellow\"]Scene Tree Dock not found. Unable to add Quick Add button.[/color]")
+		return
+	
+	var top_container:HBoxContainer = _find_place(scene_tree_dock)
 	
 	menu_button = MenuButton.new()
 	menu_button.theme_type_variation = &"FlatMenuButton"
@@ -48,8 +54,9 @@ func _enter_tree() -> void:
 
 ## Delete [member menu_button]
 func _exit_tree() -> void:
-	menu_button.queue_free()
-	menu_button = null
+	if menu_button != null:
+		menu_button.queue_free()
+		menu_button = null
 
 ## Updates list of items to quick add
 func _update_add_list() -> void:
@@ -341,7 +348,8 @@ func _edit(object: Object) -> void:
 	parent_node = object
 
 func _make_visible(visible: bool) -> void:
-	menu_button.visible = visible
+	if menu_button != null:
+		menu_button.visible = visible
 
 ## Find the container for the quick add button to be placed in
 func _find_place(node:Node) -> Node:
@@ -352,6 +360,18 @@ func _find_place(node:Node) -> Node:
 		var d = _find_place(i)
 		if d != null:
 			return d
+	return null
+
+func _get_scene_tree_dock() -> Control:
+	return _find_node(EditorInterface.get_base_control(), "SceneTreeDock") as Control
+
+func _find_node(current_node:Node, node_class:String) -> Node:
+	for i in current_node.get_children():
+		if i.get_class() == node_class:
+			return i
+		var c = _find_node(i, node_class)
+		if c != null:
+			return c
 	return null
 
 # ^^ I know this is horrible code, and I will NOT be fixing it unless godot adds better ways to get specific UI elements >:3
