@@ -35,7 +35,7 @@ func add_custom_items(): ## Add custom items
     QuickAddMenu.node_3d_list.append(item)
 ```
 
-or one with children:  
+Or one with children:  
 
 ```gdscript
 
