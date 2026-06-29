@@ -31,7 +31,7 @@ func _enter_tree() -> void:
 	top_container.add_child(menu_button)
 	top_container.move_child(menu_button, 1)
 	
-	# Shortcut
+	# Shortcut.
 	
 	menu_button.shortcut_context = top_container.get_parent()
 	menu_button.shortcut = Shortcut.new()
@@ -44,7 +44,7 @@ func _enter_tree() -> void:
 	
 	menu_button.shortcut.events = [key_event]
 
-	# Finalize
+	# Finalize.
 	
 	menu_button.get_popup().id_pressed.connect(_item_selected)
 	menu_button.about_to_popup.connect(_update_add_list)
@@ -52,13 +52,13 @@ func _enter_tree() -> void:
 	if EditorInterface.get_selection().get_selected_nodes().size() == 0:
 		menu_button.hide()
 
-## Delete [member menu_button]
+## Delete [member menu_button].
 func _exit_tree() -> void:
 	if menu_button != null:
 		menu_button.queue_free()
 		menu_button = null
 
-## Updates list of items to quick add
+## Updates list of items to quick add.
 func _update_add_list() -> void:
 	menu_button.get_popup().clear()
 	var items:Array[Item]
@@ -78,7 +78,7 @@ func _update_add_list() -> void:
 		else:
 			menu_button.get_popup().add_icon_item(i.icon, i.name)
 
-## Gets an editor icon
+## Gets an editor icon.
 static func get_icon(icon:String) -> Texture2D:
 	return EditorInterface.get_base_control().get_theme_icon(icon, "EditorIcons")
 
@@ -94,7 +94,7 @@ class Item:
 		self.spawn_callable = spawn_callable
 		self.header = header
 	
-	## Creates a header item
+	## Creates a header item.
 	static func new_header(name:String, icon:Texture2D = null) -> Item:
 		var preset = Item.new(name, icon, (func(): return false))
 		preset.header = true
@@ -158,31 +158,31 @@ static func _create_primitive_3d(type:int) -> Array[Node]:
 	collider.name = "Collider"
 	
 	match type:
-		0: # Plane
+		0: # Plane.
 			mesh.mesh = PlaneMesh.new()
 			collider.shape = mesh.mesh.create_convex_shape()
 			root.name = "Plane"
-		1: # Box
+		1: # Box.
 			mesh.mesh = BoxMesh.new()
 			collider.shape = BoxShape3D.new()
 			root.name = "Box"
-		2: # Sphere
+		2: # Sphere.
 			mesh.mesh = SphereMesh.new()
 			collider.shape = SphereShape3D.new()
 			root.name = "Sphere"
-		3: # Capsule
+		3: # Capsule.
 			mesh.mesh = CapsuleMesh.new()
 			collider.shape = CapsuleShape3D.new()
 			root.name = "Capsule"
-		4: # Cylinder
+		4: # Cylinder.
 			mesh.mesh = CylinderMesh.new()
 			collider.shape = CylinderShape3D.new()
 			root.name = "Cylinder"
-		5: # Prism
+		5: # Prism.
 			mesh.mesh = PrismMesh.new()
 			collider.shape = mesh.mesh.create_convex_shape()
 			root.name = "Prism"
-		6: # Torus
+		6: # Torus.
 			mesh.mesh = TorusMesh.new()
 			collider.shape = mesh.mesh.create_trimesh_shape()
 			root.name = "Torus"
@@ -194,24 +194,24 @@ static func _create_csg_3d(type:int) -> Array[Node]:
 	var csg:Node
 	
 	match type:
-		0: # Box CSG
+		0: # Box CSG.
 			csg = CSGBox3D.new()
 			csg.name = "CSG Box"
-		1: # Sphere CSG
+		1: # Sphere CSG.
 			csg = CSGSphere3D.new()
 			csg.name = "CSG Sphere"
 			csg.rings = 32
 			csg.radial_segments = 64
-		2: # Cylinder CSG
+		2: # Cylinder CSG.
 			csg = CSGCylinder3D.new()
 			csg.name = "CSG Cylinder"
 			csg.sides = 64
-		3: # Torus CSG
+		3: # Torus CSG.
 			csg = CSGTorus3D.new()
 			csg.name = "CSG Torus"
 			csg.ring_sides = 32
 			csg.sides = 64
-		4: # CSG Combiner
+		4: # CSG Combiner.
 			csg = CSGCombiner3D.new()
 			csg.name = "CSG Combiner"
 	
@@ -222,22 +222,22 @@ static func _create_control(type:int) -> Array[Node]:
 	var control:Control
 	
 	match type:
-		0: # Button
+		0: # Button.
 			control = Button.new()
 			control.name = "Button"
-		1: # Check Box
+		1: # Check Box.
 			control = CheckBox.new()
 			control.name = "Check Box"
-		2: # Label
+		2: # Label.
 			control = Label.new()
 			control.name = "Label"
-		3: # Line Edit
+		3: # Line Edit.
 			control = LineEdit.new()
 			control.name = "Line Edit"
-		4: # VBox Container
+		4: # VBox Container.
 			control = VBoxContainer.new()
 			control.name = "VBox Container"
-		5: # HBox Container
+		5: # HBox Container.
 			control = HBoxContainer.new()
 			control.name = "HBox Container"
 	
@@ -248,13 +248,13 @@ static func _create_node(type:int) -> Array[Node]:
 	var node:Node
 	
 	match type:
-		0: # Node 2D
+		0: # Node 2D.
 			node = Node2D.new()
 			node.name = "Node 2D"
-		1: # Node 3D
+		1: # Node 3D.
 			node = Node3D.new()
 			node.name = "Node 3D"
-		2: # Control
+		2: # Control.
 			node = Control.new()
 			node.name = "Control"
 	
@@ -265,19 +265,19 @@ static func _create_node_2d(type:int) -> Array[Node]:
 	var node:Node
 	
 	match type:
-		0: # Sprite
+		0: # Sprite.
 			node = Sprite2D.new()
 			node.name = "Sprite 2D"
-		1: # Animated Sprite
+		1: # Animated Sprite.
 			node = AnimatedSprite2D.new()
 			node.name = "Animated Sprite 2D"
-		2: # Tile Map
+		2: # Tile Map.
 			node = TileMapLayer.new()
 			node.name = "Tile Map Layer"
-		3: # Static Body
+		3: # Static Body.
 			node = StaticBody2D.new()
 			node.name = "Static Body 2D"
-		4: # Collision Shape
+		4: # Collision Shape.
 			node = CollisionShape2D.new()
 			node.name = "Collision Shape 2D"
 	
@@ -288,7 +288,7 @@ func _item_selected(id:int) -> void:
 	if parent_node == null:
 		parent_node = get_editor_interface().get_edited_scene_root().get_child(0)
 	
-	# Get Correct List
+	# Get Correct List.
 	
 	var item_list:Array[Item]
 	
@@ -301,16 +301,16 @@ func _item_selected(id:int) -> void:
 	elif parent_node is Node:
 		item_list = node_list
 	else:
-		return # parent_node is null or somehow not a node_list
+		return # parent_node is null or somehow not a node_list.
 	
-	# Create Nodes
+	# Create Nodes.
 
 	var nodes_to_spawn:Array[Node] ## First node_list is parent, node_list after are children
 
 	var name = menu_button.get_popup().get_item_text(id)
 	nodes_to_spawn = item_list[item_list.find_custom(func(i): return i.name == name)].spawn_callable.call()
 	
-	# Rename
+	# Rename.
 	
 	var original_name:String = nodes_to_spawn[0].name
 	
@@ -323,7 +323,7 @@ func _item_selected(id:int) -> void:
 		
 		nodes_to_spawn[0].name = str(original_name, " ", last_index)
 	
-	# Add To Selected Node as Child
+	# Add To Selected Node as Child.
 	
 	parent_node.add_child(nodes_to_spawn[0])
 	
@@ -333,13 +333,13 @@ func _item_selected(id:int) -> void:
 		nodes_to_spawn[0].add_child(nodes_to_spawn[i])
 		nodes_to_spawn[i].owner = get_editor_interface().get_edited_scene_root()
 	
-	# Select New Node
+	# Select New Node.
 	
 	EditorInterface.get_selection().clear()
 	EditorInterface.edit_node(nodes_to_spawn[0])
 
 func _handles(object) -> bool:
-	return object is Node
+	return object is Node && object != null
 
 func _edit(object: Object) -> void:
 	if !object:
@@ -365,6 +365,7 @@ func _find_place(node:Node) -> Node:
 func _get_scene_tree_dock() -> Control:
 	return _find_node(EditorInterface.get_base_control(), "SceneTreeDock") as Control
 
+## Find a child node by class name.
 func _find_node(current_node:Node, node_class:String) -> Node:
 	for i in current_node.get_children():
 		if i.get_class() == node_class:
