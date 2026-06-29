@@ -8,7 +8,7 @@
 
 <br>
 
-A Godot plugin that adds a drop down menu in the scene dock which gives quickly accessible nodes that can be added to your scene, similar to Unity's right click options in the scene hierarchy.
+A Godot addon that adds a drop down menu in the scene dock which gives quickly accessible nodes that can be added to your scene, similar to Unreal's Quick Add menu, or Unity's right click options in the scene hierarchy.
 
 It can be expanded to include your own custom nodes as well.
 
