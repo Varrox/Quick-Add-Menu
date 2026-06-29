@@ -16,7 +16,8 @@ The menu's items depend on the type of node you have selected.
 
 # Customization
 
-You can customize the Quick Add Menu with different function calls inside and out of the `quick_add_menu.gd` `add_custom_items()` function.
+You can customize the Quick Add Menu by adding your own nodes and section headers.  
+Customization can be done with different function calls inside and out of the `quick_add_menu.gd` `add_custom_items()` function.
 
 The best place to start is inside of the `add_custom_items()` function if you do not have your own editor plugin.
 
