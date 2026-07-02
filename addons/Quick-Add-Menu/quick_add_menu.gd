@@ -4,6 +4,8 @@ class_name QuickAddMenu extends EditorPlugin
 var menu_button:MenuButton
 var parent_node:Node
 
+static var item_instances:Dictionary[int, Item]
+
 const TOOLTIP = "Quick Add Child Node... (Ctrl+E)\nQuickly Add/Create a New Node."
 
 ## Add custom items
@@ -79,7 +81,7 @@ func _update_add_list() -> void:
 		if i.header:
 			menu_button.get_popup().add_separator(i.name)
 		else:
-			menu_button.get_popup().add_icon_item(i.icon, i.name)
+			menu_button.get_popup().add_icon_item(i.icon, i.name, i.id)
 
 ## Gets an editor icon.
 static func get_icon(icon:String) -> Texture2D:
@@ -91,11 +93,25 @@ class Item:
 	var header:bool = false
 	var spawn_callable:Callable
 	
+	var id:int
+	
+	## Get a unique id for an instance.
+	static func _get_new_id() -> int:
+		var r = randi_range(0, 65536)
+		if QuickAddMenu.item_instances.has(r):
+			return _get_new_id()
+		else:
+			return r
+	
 	func _init(name:String, icon:Texture2D, spawn_callable:Callable) -> void:
 		self.name = name
 		self.icon = icon
 		self.spawn_callable = spawn_callable
 		self.header = header
+		
+		self.id = _get_new_id()
+		
+		QuickAddMenu.item_instances[self.id] = self
 	
 	## Creates a header item.
 	static func new_header(name:String, icon:Texture2D = null) -> Item:
@@ -309,9 +325,9 @@ func _item_selected(id:int) -> void:
 	# Create Nodes.
 
 	var nodes_to_spawn:Array[Node] ## First node_list is parent, node_list after are children
-
-	var name = menu_button.get_popup().get_item_text(id)
-	nodes_to_spawn = item_list[item_list.find_custom(func(i): return i.name == name)].spawn_callable.call()
+	var item:Item = item_instances[id]
+	
+	nodes_to_spawn = item.spawn_callable.call()
 	
 	# Rename.
 	
